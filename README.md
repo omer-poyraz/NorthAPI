@@ -1,3 +1,10 @@
+## Fields
+- #### Users
+- #### Category
+- #### Product
+- #### Files
+- #### Basket
+- #### Favorite
 
 ## Layered Architecture 
 - #### Entities 
@@ -5,7 +12,7 @@
 - #### Services 
 - #### Presentation 
 
-## CONTENT
+## Content
 - #### Asp.Net Core WebAPI
 - #### EFCore 
 - #### JWT 
