@@ -1,4 +1,4 @@
-# North API
+
 ## Layered Architecture 
 - #### Entities 
 - #### Repositories 
