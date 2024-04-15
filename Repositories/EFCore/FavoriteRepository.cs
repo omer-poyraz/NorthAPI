@@ -24,6 +24,7 @@ namespace Repositories.EFCore
 
         public async Task<IEnumerable<Favorite>> GetAllFavoritesAsync(int userId, bool trackChanges) =>
             await FindAll(trackChanges)
+            .Where(f=>f.UserId.Equals(userId))
             .OrderBy(f => f.FavoriteId)
             .Include(p => p.Product)
             .ToListAsync();

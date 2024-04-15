@@ -34,10 +34,28 @@ namespace Services
             return _mapper.Map<FilesDto>(file);
         }
 
-        public async Task<IEnumerable<FilesDto>> GetAllFilesDto(bool trackChanges)
+        public async Task<IEnumerable<FilesDto>> GetAllAdvertFilesAsync(bool trackChanges)
+        {
+            var advert = await _manager.FileRepository.GetAllAdvertFilesAsync(trackChanges);
+            return _mapper.Map<IEnumerable<FilesDto>>(advert);
+        }
+
+        public async Task<IEnumerable<FilesDto>> GetAllCategoryFilesAsync(bool trackChanges)
+        {
+            var category = await _manager.FileRepository.GetAllCategoryFilesAsync(trackChanges);
+            return _mapper.Map<IEnumerable<FilesDto>>(category);
+        }
+
+        public async Task<IEnumerable<FilesDto>> GetAllFilesAsync(bool trackChanges)
         {
             var files = await _manager.FileRepository.GetAllFilesAsync(trackChanges);
             return _mapper.Map<IEnumerable<FilesDto>>(files);
+        }
+
+        public async Task<IEnumerable<FilesDto>> GetAllProductFilesAsync(bool trackChanges)
+        {
+            var product = await _manager.FileRepository.GetAllProductFilesAsync(trackChanges);
+            return _mapper.Map<IEnumerable<FilesDto>>(product);
         }
 
         public async Task<FilesDto> GetOneFilesByIdAsync(int id, bool trackChanges)

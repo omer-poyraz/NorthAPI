@@ -22,6 +22,81 @@ namespace NorthAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Entities.Models.Address", b =>
+                {
+                    b.Property<int>("AddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AddressId"));
+
+                    b.Property<string>("AddressCity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressDistrict")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AddressId");
+
+                    b.ToTable("Addresses");
+
+                    b.HasData(
+                        new
+                        {
+                            AddressId = 1,
+                            AddressCity = "Ankara",
+                            AddressDistrict = "Pursaklar",
+                            AddressText = "Ayyıldız mahallesi Mimar sinan sokak",
+                            AddressTitle = "Pursaklar",
+                            CreateAt = new DateTime(2024, 4, 15, 16, 41, 27, 911, DateTimeKind.Local).AddTicks(599),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            AddressId = 2,
+                            AddressCity = "Ankara",
+                            AddressDistrict = "Yenimahalle",
+                            AddressText = "Fezvi Çakmak mahallesi Çınar sokak",
+                            AddressTitle = "Yenimahalle",
+                            CreateAt = new DateTime(2024, 4, 15, 16, 41, 27, 911, DateTimeKind.Local).AddTicks(613),
+                            UserId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.AppInfo", b =>
+                {
+                    b.Property<int>("InfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InfoId"));
+
+                    b.Property<string>("InfoContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InfoContentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InfoTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("InfoId");
+
+                    b.ToTable("AppInfos");
+                });
+
             modelBuilder.Entity("Entities.Models.Basket", b =>
                 {
                     b.Property<int>("BasketId")
@@ -43,7 +118,7 @@ namespace NorthAPI.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Basket");
+                    b.ToTable("Baskets");
                 });
 
             modelBuilder.Entity("Entities.Models.Category", b =>
@@ -97,7 +172,7 @@ namespace NorthAPI.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Favorite");
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("Entities.Models.Files", b =>
@@ -110,6 +185,12 @@ namespace NorthAPI.Migrations
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("FieldId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FieldName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilesFullPath")
                         .HasColumnType("nvarchar(max)");
@@ -128,6 +209,100 @@ namespace NorthAPI.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("Entities.Models.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NotificationDesc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NotificationTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotificationId");
+
+                    b.ToTable("Notifications");
+
+                    b.HasData(
+                        new
+                        {
+                            NotificationId = 1,
+                            CreateAt = new DateTime(2024, 4, 15, 16, 41, 27, 911, DateTimeKind.Local).AddTicks(8850),
+                            NotificationDesc = "Tshirtlerde indirimden sizde yararlanın.",
+                            NotificationTitle = "Yeni Kampanya",
+                            UserId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OrderPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Entities.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("OrderProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderProductId"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductLength")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderProductId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -294,13 +469,13 @@ namespace NorthAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7789b37a-6fb1-4bde-b48d-ee30155b5b7e",
+                            Id = "9a538cd4-62db-4bf6-94f0-2b700e0e2a58",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "04b1735f-8401-4f4d-9cd2-0b70e3f9a87d",
+                            Id = "b62efc67-5e80-4108-8c26-689c0f3a5d12",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -443,6 +618,30 @@ namespace NorthAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.HasOne("Entities.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entities.Models.OrderProduct", b =>
+                {
+                    b.HasOne("Entities.Models.Order", null)
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId");
+                });
+
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
                     b.HasOne("Entities.Models.Category", "Category")
@@ -510,6 +709,11 @@ namespace NorthAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>

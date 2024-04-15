@@ -12,8 +12,8 @@ using Repositories.EFCore;
 namespace NorthAPI.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240414205357_Init")]
-    partial class Init
+    [Migration("20240415132621_Order")]
+    partial class Order
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,81 @@ namespace NorthAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Entities.Models.Address", b =>
+                {
+                    b.Property<int>("AddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AddressId"));
+
+                    b.Property<string>("AddressCity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressDistrict")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AddressId");
+
+                    b.ToTable("Address");
+
+                    b.HasData(
+                        new
+                        {
+                            AddressId = 1,
+                            AddressCity = "Ankara",
+                            AddressDistrict = "Pursaklar",
+                            AddressText = "Ayyıldız mahallesi Mimar sinan sokak",
+                            AddressTitle = "Pursaklar",
+                            CreateAt = new DateTime(2024, 4, 15, 16, 26, 20, 641, DateTimeKind.Local).AddTicks(657),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            AddressId = 2,
+                            AddressCity = "Ankara",
+                            AddressDistrict = "Yenimahalle",
+                            AddressText = "Fezvi Çakmak mahallesi Çınar sokak",
+                            AddressTitle = "Yenimahalle",
+                            CreateAt = new DateTime(2024, 4, 15, 16, 26, 20, 641, DateTimeKind.Local).AddTicks(671),
+                            UserId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.AppInfo", b =>
+                {
+                    b.Property<int>("InfoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InfoId"));
+
+                    b.Property<string>("InfoContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InfoContentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InfoTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("InfoId");
+
+                    b.ToTable("AppInfo");
+                });
 
             modelBuilder.Entity("Entities.Models.Basket", b =>
                 {
@@ -114,6 +189,12 @@ namespace NorthAPI.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FieldId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FieldName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FilesFullPath")
                         .HasColumnType("nvarchar(max)");
 
@@ -133,6 +214,73 @@ namespace NorthAPI.Migrations
                     b.ToTable("Files");
                 });
 
+            modelBuilder.Entity("Entities.Models.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NotificationDesc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NotificationTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotificationId");
+
+                    b.ToTable("Notification");
+
+                    b.HasData(
+                        new
+                        {
+                            NotificationId = 1,
+                            CreateAt = new DateTime(2024, 4, 15, 16, 26, 20, 646, DateTimeKind.Local).AddTicks(8939),
+                            NotificationDesc = "Tshirtlerde indirimden sizde yararlanın.",
+                            NotificationTitle = "Yeni Kampanya",
+                            UserId = 1
+                        });
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OrderPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("AddressId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Order");
+                });
+
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -142,6 +290,9 @@ namespace NorthAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -159,6 +310,8 @@ namespace NorthAPI.Migrations
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("Products");
 
@@ -297,13 +450,13 @@ namespace NorthAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7789b37a-6fb1-4bde-b48d-ee30155b5b7e",
+                            Id = "03f6edc5-91a2-4fdd-a001-a4a36cdfbc07",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "04b1735f-8401-4f4d-9cd2-0b70e3f9a87d",
+                            Id = "bd326b97-e217-472d-835d-ccdee69c9a77",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -446,6 +599,23 @@ namespace NorthAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.HasOne("Entities.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Address");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
                     b.HasOne("Entities.Models.Category", "Category")
@@ -453,6 +623,10 @@ namespace NorthAPI.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Entities.Models.Order", null)
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
 
                     b.Navigation("Category");
                 });
@@ -513,6 +687,11 @@ namespace NorthAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Models.Order", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>

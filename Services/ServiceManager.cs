@@ -11,7 +11,11 @@ namespace Services
         private readonly IProductService _productService;
         private readonly IFavoriteService _favoriteService;
         private readonly IBasketService _basketService;
-        public ServiceManager(IAuthenticationService authenticationService, ICategoryService categoryService, IUserService userService, IFilesService fileService, IProductService productService, IFavoriteService favoriteService, IBasketService basketService)
+        private readonly INotificationService _notificationService;
+        private readonly IAddressService _addressService;
+        private readonly IAppInfoService _appInfoService;
+        private readonly IOrderService _orderService;
+        public ServiceManager(IAuthenticationService authenticationService, ICategoryService categoryService, IUserService userService, IFilesService fileService, IProductService productService, IFavoriteService favoriteService, IBasketService basketService, INotificationService notificationService, IAddressService addressService, IAppInfoService appInfoService, IOrderService orderService)
         {
             _authenticationService = authenticationService;
             _categoryService = categoryService;
@@ -20,6 +24,10 @@ namespace Services
             _productService = productService;
             _favoriteService = favoriteService;
             _basketService = basketService;
+            _notificationService = notificationService;
+            _addressService = addressService;
+            _appInfoService = appInfoService;
+            _orderService = orderService;
         }
 
         public IAuthenticationService AuthenticationService => _authenticationService;
@@ -29,5 +37,9 @@ namespace Services
         public IProductService ProductService => _productService;
         public IFavoriteService FavoriteService => _favoriteService;
         public IBasketService BasketService => _basketService;
+        public INotificationService NotificationService => _notificationService;
+        public IAddressService AddressService => _addressService;
+        public IAppInfoService AppInfoService => _appInfoService;
+        public IOrderService OrderService => _orderService;
     }
 }

@@ -4,6 +4,8 @@
     {
         public int FilesId { get; set; }
         public int ProductId { get; set; }
+        public int FieldId { get; set; }
+        public string? FieldName { get; set; }
         public string? FilesName { get; set; }
         public string? FilesPath { get; set; }
         public string? FilesFullPath { get; set; }
@@ -11,7 +13,7 @@
 
         public Files()
         {
-            CreateAt = DateTime.UtcNow;
+            CreateAt = DateTime.Now;
         }
     }
 }

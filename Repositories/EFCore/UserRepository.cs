@@ -12,6 +12,12 @@ namespace Repositories.EFCore
         {
         }
 
+        public User ChangePassword(User user)
+        {
+            Update(user);
+            return user;
+        }
+
         public User DeleteOneUser(User user)
         {
             Delete(user);

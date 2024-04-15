@@ -14,6 +14,24 @@ namespace NorthAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    AddressId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AddressTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressCity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressDistrict = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.AddressId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -55,6 +73,22 @@ namespace NorthAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notification",
+                columns: table => new
+                {
+                    NotificationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    NotificationTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NotificationDesc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.NotificationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -254,6 +288,7 @@ namespace NorthAPI.Migrations
                     FilesId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
+                    FieldId = table.Column<int>(type: "int", nullable: false),
                     FilesName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FilesPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FilesFullPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -271,12 +306,21 @@ namespace NorthAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Address",
+                columns: new[] { "AddressId", "AddressCity", "AddressDistrict", "AddressText", "AddressTitle", "CreateAt", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Ankara", "Pursaklar", "Ayyıldız mahallesi Mimar sinan sokak", "Pursaklar", new DateTime(2024, 4, 15, 11, 19, 11, 148, DateTimeKind.Utc).AddTicks(6111), 1 },
+                    { 2, "Ankara", "Yenimahalle", "Fezvi Çakmak mahallesi Çınar sokak", "Yenimahalle", new DateTime(2024, 4, 15, 11, 19, 11, 148, DateTimeKind.Utc).AddTicks(6116), 1 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "UserId" },
                 values: new object[,]
                 {
-                    { "04b1735f-8401-4f4d-9cd2-0b70e3f9a87d", null, "User", "USER", null },
-                    { "7789b37a-6fb1-4bde-b48d-ee30155b5b7e", null, "Admin", "ADMIN", null }
+                    { "21f0f5c2-849f-4eaf-b27b-c9cca0e328f4", null, "Admin", "ADMIN", null },
+                    { "a8129673-554b-4b2f-ad3d-58c6433cef29", null, "User", "USER", null }
                 });
 
             migrationBuilder.InsertData(
@@ -287,6 +331,11 @@ namespace NorthAPI.Migrations
                     { 1, "https://dfcdn.defacto.com.tr/AssetsV2/dist/img/de-facto-logo-light-v2.svg", "Defacto" },
                     { 2, "https://upload.wikimedia.org/wikipedia/commons/2/28/Logo_of_Mavi.png", "Mavi" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Notification",
+                columns: new[] { "NotificationId", "CreateAt", "NotificationDesc", "NotificationTitle", "UserId" },
+                values: new object[] { 1, new DateTime(2024, 4, 15, 11, 19, 11, 152, DateTimeKind.Utc).AddTicks(6684), "Tshirtlerde indirimden sizde yararlanın.", "Yeni Kampanya", 1 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -366,6 +415,9 @@ namespace NorthAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Address");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -388,6 +440,9 @@ namespace NorthAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Files");
+
+            migrationBuilder.DropTable(
+                name: "Notification");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

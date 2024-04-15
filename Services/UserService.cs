@@ -67,5 +67,14 @@ namespace Services
 
             return _mapper.Map<UserDto>(user);
         }
+
+        public async Task<UserDto> ChangePasswordAsync(int userId, string currentPassword, string newPassword, bool trackChanges)
+        {
+            var userDto = await _manager.UserRepository.GetOneUserByIdAsync(userId, trackChanges);
+            var user = await _userManager.FindByEmailAsync(userDto.Email!);
+
+            await _userManager.ChangePasswordAsync(user!, currentPassword, newPassword);
+            return _mapper.Map<UserDto>(user);
+        }
     }
 }

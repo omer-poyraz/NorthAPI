@@ -22,8 +22,29 @@ namespace Repositories.EFCore
             return files;
         }
 
+        public async Task<IEnumerable<Files>> GetAllAdvertFilesAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .Where(a => a.FieldId.Equals(1))
+            .OrderBy(f => f.FilesId)
+            .ToListAsync();
+
+        public async Task<IEnumerable<Files>> GetAllCategoryFilesAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .Where(c => c.FieldId.Equals(2))
+            .OrderBy(f => f.FilesId)
+            .ToListAsync();
+
+        public async Task<IEnumerable<Files>> GetAllProductFilesAsync(bool trackChanges) =>
+            await FindAll(trackChanges)
+            .Where(p => p.FieldId.Equals(3))
+            .OrderBy(f => f.FilesId)
+            .ToListAsync();
+
+
         public async Task<IEnumerable<Files>> GetAllFilesAsync(bool trackChanges) =>
-            await FindAll(trackChanges).OrderBy(f => f.FilesId).ToListAsync();
+            await FindAll(trackChanges)
+            .OrderBy(f => f.FilesId)
+            .ToListAsync();
 
         public async Task<Files> GetOneFilesAsync(int id, bool trackChanges) =>
             await FindByCondition(f => f.FilesId.Equals(id), trackChanges).SingleOrDefaultAsync();

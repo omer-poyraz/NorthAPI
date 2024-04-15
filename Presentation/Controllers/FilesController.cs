@@ -21,8 +21,29 @@ namespace Presentation.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllFilesAsync()
         {
-            var file = await _manager.FilesService.GetAllFilesDto(false);
+            var file = await _manager.FilesService.GetAllFilesAsync(false);
             return Ok(file);
+        }
+
+        [HttpGet("GetAllAdvert")]
+        public async Task<IActionResult> GetAllAdvertFilesAsync()
+        {
+            var adverts = await _manager.FilesService.GetAllAdvertFilesAsync(false);
+            return Ok(adverts);
+        }
+
+        [HttpGet("GetAllCategory")]
+        public async Task<IActionResult> GetAllCategoryFilesAsync()
+        {
+            var category = await _manager.FilesService.GetAllCategoryFilesAsync(false);
+            return Ok(category);
+        }
+
+        [HttpGet("GetAllProduct")]
+        public async Task<IActionResult> GetAllProductFilesAsync()
+        {
+            var product = await _manager.FilesService.GetAllProductFilesAsync(false);
+            return Ok(product);
         }
 
         [HttpGet("Get/{id:int}")]
@@ -32,15 +53,17 @@ namespace Presentation.Controllers
             return Ok(file);
         }
 
-        [HttpPost("Upload/{productId:int}")]
-        public async Task<IActionResult> UploadFile(IFormFile file, [FromRoute] int productId)
+        [HttpPost("Upload/{productId:int}/{fieldId:int}")]
+        public async Task<IActionResult> UploadFile(IFormFile file, [FromRoute] int productId, int fieldId)
         {
             var rnd = new Random();
             var imgId = rnd.Next(0, 100000);
-            var upload = await FileManager.FileUpload(file, "Product", imgId);
+            var upload = await FileManager.FileUpload(file, fieldId, imgId);
             var fileDto = new FilesDtoForInsertion
             {
                 ProductId = productId,
+                FieldId = fieldId,
+                FieldName = $"{upload["FieldName"]}",
                 FilesName = $"{imgId}_{upload["FilesName"]}",
                 FilesPath = $"{upload["FilesPath"]}",
                 FilesFullPath = $"{upload["FilesFullPath"]}"

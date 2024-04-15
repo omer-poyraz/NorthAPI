@@ -44,5 +44,12 @@ namespace Presentation.Controllers
             var user = await _manager.UserService.DeleteOneUserAsync(userId, false);
             return Ok(user);
         }
+
+        [HttpPut("ChangePassword/{userId:int}")]
+        public async Task<IActionResult> ChangePaswordAsync([FromRoute] int userId, [FromBody] UserDtoForChangePassword changePassword)
+        {
+            var user = await _manager.UserService.ChangePasswordAsync(userId, changePassword.CurrentPassword!, changePassword.NewPassword!, false);
+            return Ok(user);
+        }
     }
 }

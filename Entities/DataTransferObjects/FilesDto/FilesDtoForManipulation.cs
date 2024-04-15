@@ -7,6 +7,9 @@ namespace Entities.DataTransferObjects.FilesDto
         [Required]
         public int ProductId { get; init; }
         [Required]
+        public int FieldId { get; set; }
+        public string? FieldName { get; init; }
+        [Required]
         [MaxLength(100)]
         public string? FilesName { get; init; }
         [Required]

@@ -42,6 +42,18 @@ namespace NorthAPI.Extensions
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IBasketService, BasketService>();
 
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<INotificationService, NotificationService>();
+
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IAddressService, AddressService>();
+
+            services.AddScoped<IAppInfoRepository, AppInfoRepository>();
+            services.AddScoped<IAppInfoService, AppInfoService>();
+
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderService, OrderService>();
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", build => build.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod().WithExposedHeaders("X-Pagination"));

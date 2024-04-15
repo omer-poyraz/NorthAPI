@@ -24,6 +24,7 @@ namespace Repositories.EFCore
 
         public async Task<IEnumerable<Basket>> GetAllBasketsAsync(int userId, bool trackChanges) =>
             await FindAll(trackChanges)
+            .Where(b=>b.UserId.Equals(userId))
             .OrderBy(b => b.BasketId)
             .Include(p => p.Product)
             .ToListAsync();

@@ -1,4 +1,6 @@
-﻿namespace Repositories.Contracts
+﻿using Entities.Models;
+
+namespace Repositories.Contracts
 {
     public interface IRepositoryManager
     {
@@ -8,6 +10,10 @@
         IProductRepository ProductRepository { get; }
         IFavoriteRepository FavoriteRepository { get; }
         IBasketRepository BasketRepository { get; }
+        INotificationRepository NotificationRepository { get; }
+        IAddressRepository AddressRepository { get; }
+        IAppInfoRepository AppInfoRepository { get; }
+        IOrderRepository OrderRepository { get; }
         Task SaveAsync();
     }
 }

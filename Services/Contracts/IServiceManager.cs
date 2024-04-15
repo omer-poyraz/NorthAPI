@@ -9,5 +9,9 @@
         IProductService ProductService { get; }
         IFavoriteService FavoriteService { get; }
         IBasketService BasketService { get; }
+        INotificationService NotificationService { get; }
+        IAddressService AddressService { get; }
+        IAppInfoService AppInfoService { get; }
+        IOrderService OrderService { get; }
     }
 }
