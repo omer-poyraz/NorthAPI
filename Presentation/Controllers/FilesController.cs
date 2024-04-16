@@ -7,7 +7,7 @@ using Services.Extensions;
 
 namespace Presentation.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/Files")]
     public class FilesController : ControllerBase

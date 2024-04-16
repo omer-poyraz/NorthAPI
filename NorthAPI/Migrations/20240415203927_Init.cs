@@ -14,7 +14,7 @@ namespace NorthAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Address",
+                name: "Addresses",
                 columns: table => new
                 {
                     AddressId = table.Column<int>(type: "int", nullable: false)
@@ -28,7 +28,22 @@ namespace NorthAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Address", x => x.AddressId);
+                    table.PrimaryKey("PK_Addresses", x => x.AddressId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppInfos",
+                columns: table => new
+                {
+                    InfoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InfoContentId = table.Column<int>(type: "int", nullable: false),
+                    InfoTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InfoContent = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppInfos", x => x.InfoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,7 +91,7 @@ namespace NorthAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Notification",
+                name: "Notifications",
                 columns: table => new
                 {
                     NotificationId = table.Column<int>(type: "int", nullable: false)
@@ -88,7 +103,7 @@ namespace NorthAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Notification", x => x.NotificationId);
+                    table.PrimaryKey("PK_Notifications", x => x.NotificationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,6 +188,34 @@ namespace NorthAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    AddressId = table.Column<int>(type: "int", nullable: false),
+                    OrderPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
+                    table.ForeignKey(
+                        name: "FK_Orders_Addresses_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Addresses",
+                        principalColumn: "AddressId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -241,7 +284,28 @@ namespace NorthAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Basket",
+                name: "OrderProduct",
+                columns: table => new
+                {
+                    OrderProductId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ProductLength = table.Column<int>(type: "int", nullable: false),
+                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    OrderId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderProduct", x => x.OrderProductId);
+                    table.ForeignKey(
+                        name: "FK_OrderProduct_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Baskets",
                 columns: table => new
                 {
                     BasketId = table.Column<int>(type: "int", nullable: false)
@@ -252,9 +316,9 @@ namespace NorthAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Basket", x => x.BasketId);
+                    table.PrimaryKey("PK_Baskets", x => x.BasketId);
                     table.ForeignKey(
-                        name: "FK_Basket_Products_ProductId",
+                        name: "FK_Baskets_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
@@ -262,7 +326,7 @@ namespace NorthAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Favorite",
+                name: "Favorites",
                 columns: table => new
                 {
                     FavoriteId = table.Column<int>(type: "int", nullable: false)
@@ -272,9 +336,9 @@ namespace NorthAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favorite", x => x.FavoriteId);
+                    table.PrimaryKey("PK_Favorites", x => x.FavoriteId);
                     table.ForeignKey(
-                        name: "FK_Favorite_Products_ProductId",
+                        name: "FK_Favorites_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
@@ -289,6 +353,7 @@ namespace NorthAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     FieldId = table.Column<int>(type: "int", nullable: false),
+                    FieldName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FilesName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FilesPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FilesFullPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -306,12 +371,12 @@ namespace NorthAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Address",
+                table: "Addresses",
                 columns: new[] { "AddressId", "AddressCity", "AddressDistrict", "AddressText", "AddressTitle", "CreateAt", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Ankara", "Pursaklar", "Ayyıldız mahallesi Mimar sinan sokak", "Pursaklar", new DateTime(2024, 4, 15, 11, 19, 11, 148, DateTimeKind.Utc).AddTicks(6111), 1 },
-                    { 2, "Ankara", "Yenimahalle", "Fezvi Çakmak mahallesi Çınar sokak", "Yenimahalle", new DateTime(2024, 4, 15, 11, 19, 11, 148, DateTimeKind.Utc).AddTicks(6116), 1 }
+                    { 1, "Ankara", "Pursaklar", "Ayyıldız mahallesi Mimar sinan sokak", "Pursaklar", new DateTime(2024, 4, 15, 23, 39, 27, 463, DateTimeKind.Local).AddTicks(7328), 1 },
+                    { 2, "Ankara", "Yenimahalle", "Fezvi Çakmak mahallesi Çınar sokak", "Yenimahalle", new DateTime(2024, 4, 15, 23, 39, 27, 463, DateTimeKind.Local).AddTicks(7348), 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -319,8 +384,8 @@ namespace NorthAPI.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName", "UserId" },
                 values: new object[,]
                 {
-                    { "21f0f5c2-849f-4eaf-b27b-c9cca0e328f4", null, "Admin", "ADMIN", null },
-                    { "a8129673-554b-4b2f-ad3d-58c6433cef29", null, "User", "USER", null }
+                    { "2da2b211-5719-4bfe-ba1b-cf1f18a8e657", null, "User", "USER", null },
+                    { "c297d966-4b66-47a4-b517-d886b2f9d3fc", null, "Admin", "ADMIN", null }
                 });
 
             migrationBuilder.InsertData(
@@ -333,9 +398,9 @@ namespace NorthAPI.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Notification",
+                table: "Notifications",
                 columns: new[] { "NotificationId", "CreateAt", "NotificationDesc", "NotificationTitle", "UserId" },
-                values: new object[] { 1, new DateTime(2024, 4, 15, 11, 19, 11, 152, DateTimeKind.Utc).AddTicks(6684), "Tshirtlerde indirimden sizde yararlanın.", "Yeni Kampanya", 1 });
+                values: new object[] { 1, new DateTime(2024, 4, 15, 23, 39, 27, 464, DateTimeKind.Local).AddTicks(6866), "Tshirtlerde indirimden sizde yararlanın.", "Yeni Kampanya", 1 });
 
             migrationBuilder.InsertData(
                 table: "Products",
@@ -391,19 +456,34 @@ namespace NorthAPI.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Basket_ProductId",
-                table: "Basket",
+                name: "IX_Baskets_ProductId",
+                table: "Baskets",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favorite_ProductId",
-                table: "Favorite",
+                name: "IX_Favorites_ProductId",
+                table: "Favorites",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Files_ProductId",
                 table: "Files",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderProduct_OrderId",
+                table: "OrderProduct",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_AddressId",
+                table: "Orders",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_UserId1",
+                table: "Orders",
+                column: "UserId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
@@ -415,7 +495,7 @@ namespace NorthAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "AppInfos");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -433,16 +513,19 @@ namespace NorthAPI.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Basket");
+                name: "Baskets");
 
             migrationBuilder.DropTable(
-                name: "Favorite");
+                name: "Favorites");
 
             migrationBuilder.DropTable(
                 name: "Files");
 
             migrationBuilder.DropTable(
-                name: "Notification");
+                name: "Notifications");
+
+            migrationBuilder.DropTable(
+                name: "OrderProduct");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -451,10 +534,16 @@ namespace NorthAPI.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

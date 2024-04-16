@@ -28,9 +28,13 @@ app.ConfigureExceptionHandler(logger);
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 if (app.Environment.IsProduction())
 {

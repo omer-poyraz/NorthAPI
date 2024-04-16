@@ -1,11 +1,13 @@
 ﻿using Entities.DataTransferObjects.ProductDto;
 using Entities.RequestFeature;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using System.Text.Json;
 
 namespace Presentation.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/Product")]
     public class ProductController : ControllerBase

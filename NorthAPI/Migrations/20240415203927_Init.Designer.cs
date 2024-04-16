@@ -12,8 +12,8 @@ using Repositories.EFCore;
 namespace NorthAPI.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240415132621_Order")]
-    partial class Order
+    [Migration("20240415203927_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,7 +53,7 @@ namespace NorthAPI.Migrations
 
                     b.HasKey("AddressId");
 
-                    b.ToTable("Address");
+                    b.ToTable("Addresses");
 
                     b.HasData(
                         new
@@ -63,7 +63,7 @@ namespace NorthAPI.Migrations
                             AddressDistrict = "Pursaklar",
                             AddressText = "Ayyıldız mahallesi Mimar sinan sokak",
                             AddressTitle = "Pursaklar",
-                            CreateAt = new DateTime(2024, 4, 15, 16, 26, 20, 641, DateTimeKind.Local).AddTicks(657),
+                            CreateAt = new DateTime(2024, 4, 15, 23, 39, 27, 463, DateTimeKind.Local).AddTicks(7328),
                             UserId = 1
                         },
                         new
@@ -73,7 +73,7 @@ namespace NorthAPI.Migrations
                             AddressDistrict = "Yenimahalle",
                             AddressText = "Fezvi Çakmak mahallesi Çınar sokak",
                             AddressTitle = "Yenimahalle",
-                            CreateAt = new DateTime(2024, 4, 15, 16, 26, 20, 641, DateTimeKind.Local).AddTicks(671),
+                            CreateAt = new DateTime(2024, 4, 15, 23, 39, 27, 463, DateTimeKind.Local).AddTicks(7348),
                             UserId = 1
                         });
                 });
@@ -97,7 +97,7 @@ namespace NorthAPI.Migrations
 
                     b.HasKey("InfoId");
 
-                    b.ToTable("AppInfo");
+                    b.ToTable("AppInfos");
                 });
 
             modelBuilder.Entity("Entities.Models.Basket", b =>
@@ -121,7 +121,7 @@ namespace NorthAPI.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Basket");
+                    b.ToTable("Baskets");
                 });
 
             modelBuilder.Entity("Entities.Models.Category", b =>
@@ -175,7 +175,7 @@ namespace NorthAPI.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Favorite");
+                    b.ToTable("Favorites");
                 });
 
             modelBuilder.Entity("Entities.Models.Files", b =>
@@ -236,13 +236,13 @@ namespace NorthAPI.Migrations
 
                     b.HasKey("NotificationId");
 
-                    b.ToTable("Notification");
+                    b.ToTable("Notifications");
 
                     b.HasData(
                         new
                         {
                             NotificationId = 1,
-                            CreateAt = new DateTime(2024, 4, 15, 16, 26, 20, 646, DateTimeKind.Local).AddTicks(8939),
+                            CreateAt = new DateTime(2024, 4, 15, 23, 39, 27, 464, DateTimeKind.Local).AddTicks(6866),
                             NotificationDesc = "Tshirtlerde indirimden sizde yararlanın.",
                             NotificationTitle = "Yeni Kampanya",
                             UserId = 1
@@ -278,7 +278,34 @@ namespace NorthAPI.Migrations
 
                     b.HasIndex("UserId1");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Entities.Models.OrderProduct", b =>
+                {
+                    b.Property<int>("OrderProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderProductId"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductLength")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ProductPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("OrderProductId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -290,9 +317,6 @@ namespace NorthAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -310,8 +334,6 @@ namespace NorthAPI.Migrations
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Products");
 
@@ -450,13 +472,13 @@ namespace NorthAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "03f6edc5-91a2-4fdd-a001-a4a36cdfbc07",
+                            Id = "c297d966-4b66-47a4-b517-d886b2f9d3fc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "bd326b97-e217-472d-835d-ccdee69c9a77",
+                            Id = "2da2b211-5719-4bfe-ba1b-cf1f18a8e657",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -616,6 +638,13 @@ namespace NorthAPI.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Entities.Models.OrderProduct", b =>
+                {
+                    b.HasOne("Entities.Models.Order", null)
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("OrderId");
+                });
+
             modelBuilder.Entity("Entities.Models.Product", b =>
                 {
                     b.HasOne("Entities.Models.Category", "Category")
@@ -623,10 +652,6 @@ namespace NorthAPI.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Entities.Models.Order", null)
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
 
                     b.Navigation("Category");
                 });
@@ -691,7 +716,7 @@ namespace NorthAPI.Migrations
 
             modelBuilder.Entity("Entities.Models.Order", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>

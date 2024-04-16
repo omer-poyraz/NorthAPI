@@ -6,7 +6,7 @@ using Services.Contracts;
 
 namespace Presentation.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/User")]
     public class UserController : ControllerBase

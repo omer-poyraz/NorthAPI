@@ -60,7 +60,7 @@ namespace NorthAPI.Migrations
                             AddressDistrict = "Pursaklar",
                             AddressText = "Ayyıldız mahallesi Mimar sinan sokak",
                             AddressTitle = "Pursaklar",
-                            CreateAt = new DateTime(2024, 4, 15, 16, 41, 27, 911, DateTimeKind.Local).AddTicks(599),
+                            CreateAt = new DateTime(2024, 4, 15, 23, 39, 27, 463, DateTimeKind.Local).AddTicks(7328),
                             UserId = 1
                         },
                         new
@@ -70,7 +70,7 @@ namespace NorthAPI.Migrations
                             AddressDistrict = "Yenimahalle",
                             AddressText = "Fezvi Çakmak mahallesi Çınar sokak",
                             AddressTitle = "Yenimahalle",
-                            CreateAt = new DateTime(2024, 4, 15, 16, 41, 27, 911, DateTimeKind.Local).AddTicks(613),
+                            CreateAt = new DateTime(2024, 4, 15, 23, 39, 27, 463, DateTimeKind.Local).AddTicks(7348),
                             UserId = 1
                         });
                 });
@@ -239,7 +239,7 @@ namespace NorthAPI.Migrations
                         new
                         {
                             NotificationId = 1,
-                            CreateAt = new DateTime(2024, 4, 15, 16, 41, 27, 911, DateTimeKind.Local).AddTicks(8850),
+                            CreateAt = new DateTime(2024, 4, 15, 23, 39, 27, 464, DateTimeKind.Local).AddTicks(6866),
                             NotificationDesc = "Tshirtlerde indirimden sizde yararlanın.",
                             NotificationTitle = "Yeni Kampanya",
                             UserId = 1
@@ -469,13 +469,13 @@ namespace NorthAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9a538cd4-62db-4bf6-94f0-2b700e0e2a58",
+                            Id = "c297d966-4b66-47a4-b517-d886b2f9d3fc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b62efc67-5e80-4108-8c26-689c0f3a5d12",
+                            Id = "2da2b211-5719-4bfe-ba1b-cf1f18a8e657",
                             Name = "User",
                             NormalizedName = "USER"
                         });

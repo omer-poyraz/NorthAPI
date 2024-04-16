@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace Presentation.Controllers
 {
-    //[Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/Category")]
     public class CategoryController : ControllerBase

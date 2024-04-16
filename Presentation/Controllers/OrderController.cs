@@ -1,9 +1,11 @@
 ﻿using Entities.DataTransferObjects.OrderDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 
 namespace Presentation.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/Order")]
     public class OrderController : ControllerBase

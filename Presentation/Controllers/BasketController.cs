@@ -1,9 +1,11 @@
 ﻿using Entities.DataTransferObjects.BasketDto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 
 namespace Presentation.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("api/Basket")]
     public class BasketController : ControllerBase
